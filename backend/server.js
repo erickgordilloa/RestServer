@@ -1,7 +1,9 @@
 const dotenv = require("dotenv");
 const connectDB = require("./config/db");
 const http = require("http");
-const usuarioRoutes = require("./routes/usuarioRoutes");
+const fileupload = require("express-fileupload");
+const userRoutes = require("./routes/userRoutes");
+const studentRoutes = require("./routes/studentRoutes");
 const express = require('express');
 
 dotenv.config();
@@ -16,7 +18,8 @@ app.use((req, res, next) => {
     res.header("Access-Control-Allow-Methods", "*");
     res.header("Allow", "*");
     next();
-  });
+});
+app.use(fileupload());
 
 app.get("/", (req, res) => {
     res.send("API is running...");
@@ -24,7 +27,8 @@ app.get("/", (req, res) => {
 
 /* routes */
 app.use(express.json());
-app.use("/api/usuarios", usuarioRoutes);
+app.use("/api/users", userRoutes);
+app.use("/api/students", studentRoutes);
 /* routes */
 
 const PORT = process.env.PORT || 5000;
